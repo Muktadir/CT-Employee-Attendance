@@ -7,7 +7,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def white_listed?(ip)
-    return true if ["127.0.5.1", "127.0.0.1"].include?(ip)
+    @allowed_ip = AllowedIp.all
+    @white_list = Array.new
+    @allowed_ip.each do |ip|
+      @white_list.push(ip.ip_address)
+    end
+    return true if @white_list.include?(ip)
+    # return true if ["127.0.5.1", "127.0.0.1"].include?(ip)
     false
   end
 

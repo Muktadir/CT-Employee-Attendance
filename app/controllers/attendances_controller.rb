@@ -73,7 +73,10 @@ class AttendancesController < ApplicationController
       start_date = DateTime.parse(params["start_date"].values.join("-"))
       end_date = DateTime.parse(params["end_date"].values.join("-"))
     end
-    @report_by_name = Attendance.where(created_at:  start_date..end_date).where(:email => email)
+    @attendances = Attendance.all
+    @report_by_name = @attendances.where(created_at:  start_date..end_date).where(:email => email)
+    @leave_count = @report_by_name.where(:leave => true).count
+    # @present_today = @attendances.where(:date => date).where(:leave => false)
   end
 
   def by_date
@@ -82,7 +85,7 @@ class AttendancesController < ApplicationController
       start_date = DateTime.parse(params["start_date"].values.join("-"))
       end_date = DateTime.parse(params["end_date"].values.join("-"))
     end
-    @report_by_name = Attendance.where(created_at:  start_date..end_date)
+    @report_by_date = Attendance.where(created_at:  start_date..end_date)
   end
 
   def make_leave

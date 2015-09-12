@@ -15,7 +15,7 @@
     </div>
     <div class="span3"></div>
   </div>
-  <br>
+  <hr>
   <div class="row-fluid">
     <div class="span2"><b>Firstname</b></div>
     <div class="span2"><b>Lastname</b></div>
@@ -25,7 +25,7 @@
     <div class="span2"><b>Worked Hours</b></div>
   </div>
 </div>
-<% @report_by_name.each do |n| %>
+<% @report_by_date.each do |n| %>
     <div class="row-fluid">
       <div class="span2"><%= n.firstname %></div>
       <div class="span2"><%= n.lastname %></div>

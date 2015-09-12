@@ -16,21 +16,22 @@
     </div>
     <div class="span3"></div>
   </div>
-  <br>
+  <hr>
   <div class="row-fluid">
-    <div class="span2"><b>Firstname</b></div>
-    <div class="span2"><b>Lastname</b></div>
+    <div class="span1"><b>Firstname</b></div>
+    <div class="span1"><b>Lastname</b></div>
     <div class="span2"><b>Date</b></div>
     <div class="span2"><b>Checked in at</b></div>
     <div class="span2"><b>Checked out at</b></div>
     <div class="span2"><b>Worked Hours</b></div>
+    <div class="span2"><b>Options</b></div>
   </div>
 </div>
 <% @total_time = 0 %>
 <% @report_by_name.each do |n| %>
     <div class="row-fluid">
-      <div class="span2"><%= n.firstname %></div>
-      <div class="span2"><%= n.lastname %></div>
+      <div class="span1"><%= n.firstname %></div>
+      <div class="span1"><%= n.lastname %></div>
       <div class="span2"><%= n.date %></div>
       <div class="span2">
         <% if n.login_at.present? %>
@@ -39,28 +40,41 @@
           was on <%= n.leave_cause %>
         <% end %>
       </div>
-      <% if n.logout_at != nil %>
-          <div class="span2"><%= n.logout_at.strftime("%H:%M") %></div>
-          <% @total_time = ( @total_time + (n.logout_at - n.login_at)) %>
-          <% @hour = ((n.logout_at - n.login_at)/1.hours).floor %>
-          <% @min = (((n.logout_at - n.login_at)%1.hours)/1.minutes).ceil %>
-          <div class="span2"><%= @hour %> hours and <%= @min %> minutes</div>
-      <% else %>
-          <div class="span2"></div>
-          <div class="span2"></div>
-      <% end %>
+      <div class="span2">
+          <% if n.logout_at != nil %>
+              <%= n.logout_at.strftime("%H:%M") %>
+              <% @total_time = ( @total_time + (n.logout_at - n.login_at)) %>
+              <% @hour = ((n.logout_at - n.login_at)/1.hours).floor %>
+              <% @min = (((n.logout_at - n.login_at)%1.hours)/1.minutes).ceil %>
+          <% end %>
+      </div>
+      <div class="span2">
+        <% if n.logout_at != nil %>
+            <%= @hour %> hours and <%= @min %> minutes
+        <% end %>
+      </div>
+
+      <div class="span2">
+        <% if current_employee.admin && current_employee.email != n.email %>
+            <%= link_to 'Edit', edit_attendance_path(n) %>
+            <%= link_to 'Delete', n, method: :delete, data: { confirm: 'You are going to destroy the record!!! Are you sure?' } %>
+        <% end %>
+      </div>
 
     </div>
 
 <% end %>
 
 <br>
+<hr>
 <div class="row-fluid">
   <div class="span4"></div>
-  <div class="span4">
+  <div class="span3">
+    <b>Leave Count: </b> <%= @leave_count %>
+  </div>
+  <div class="span5">
     <% @t_hours = (@total_time/1.hours).floor %>
     <% @t_mins = ((@total_time%1.hours)/1.minutes).ceil %>
     <b>Total worked hours: </b> <%= @t_hours %> hours and <%= @t_mins %> minutes.
   </div>
-  <div class="span4"></div>
 </div>

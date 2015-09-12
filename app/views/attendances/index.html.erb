@@ -54,7 +54,7 @@
           </div>
 
 
-          <% if current_employee.admin && current_employee.firstname != present.firstname %>
+          <% if current_employee.admin && current_employee.email != present.email %>
               <div class="span2">
                     <%= link_to 'Edit', edit_attendance_path(present) %>
                 <%= link_to 'Delete', present, method: :delete, data: { confirm: 'You are going to destroy the record!!! Are you sure?' } %>

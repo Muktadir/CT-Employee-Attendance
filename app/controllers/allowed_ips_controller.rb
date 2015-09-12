@@ -22,8 +22,9 @@ class AllowedIpsController < ApplicationController
 
   def create
     @allowed_ip = AllowedIp.new(allowed_ip_params)
-    @allowed_ip.save
-    respond_with(@allowed_ip)
+    if @allowed_ip.save
+      redirect_to root_path
+    end
   end
 
   def update
