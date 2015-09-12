@@ -1,0 +1,36 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+select {
+    width: 21% !important;
+    border: 1px solid #cccccc;
+    background-color: white;
+}
+.title{    background-color: #D9EDF7;}
+.title h2{
+    color: #31708F;
+    font-weight: normal;
+    font-size: 22px;}
+.form_design{    border: 1px solid #BCE8f1;
+    padding: 56px;
+    margin-top: -1.5%;}
+.user_icon{padding: 10px}
+
+.field input{width: 100%}
+.actions{width: 102%}
+.remember_me input[type="checkbox"]{height: 20px;
+    width: 18px;    margin-top: -2px;}
+.remember_me span{    padding: 7px;}
+.remember_me{margin-bottom: 10px;}
+hr{color: #666666;background-color: #666666}

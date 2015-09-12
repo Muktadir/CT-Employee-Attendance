@@ -1,0 +1,66 @@
+<div>
+  <div class="row-fluid">
+    <div class="span3">
+      <%= image_tag "ct_logo.png", :style => "margin:8% 0 0 5%" %>
+      <b style="margin-left: 6%; font-size: 16px"><%= Time.now.strftime("%A, %d %B %Y") %></b>
+    </div>
+    <div class="span9">you are accessing this site using IP: <%= request.remote_ip %></div>
+  </div>
+  <hr>
+  <div class="row-fluid">
+    <div class="span5"></div>
+    <div class="span2">
+      <h2 style="text-align: center">Sign up</h2>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= devise_error_messages! %>
+
+          <div class="field">
+            <%= f.text_field :firstname, autofocus: true, :placeholder => "Your Firstname" %>
+          </div>
+
+          <div class="field">
+            <%= f.text_field :lastname, :placeholder => "Your Lastname" %>
+          </div>
+
+          <div class="field">
+            <%= f.hidden_field :admin, :value => true %>
+          </div>
+
+          <div class="field">
+            <%= f.email_field :email, :placeholder => "your@email.address" %>
+          </div>
+
+          <div class="field">
+            <%= f.password_field :password, autocomplete: "off", :placeholder => "Secure Your Account!" %>
+            <% if @validatable %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+          </div>
+
+          <div class="field">
+            <%= f.password_field :password_confirmation, autocomplete: "off", :placeholder => "Confirm Password" %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Sign up", :class => "btn btn-default", :style => "width: 100%" %>
+          </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+
+    </div>
+    <div class="span5"></div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

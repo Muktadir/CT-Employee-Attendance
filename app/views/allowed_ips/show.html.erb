@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @allowed_ip.name %>
+</p>
+
+<p>
+  <strong>Ip address:</strong>
+  <%= @allowed_ip.ip_address %>
+</p>
+
+<%= link_to 'Edit', edit_allowed_ip_path(@allowed_ip) %> |
+<%= link_to 'Back', allowed_ips_path %>

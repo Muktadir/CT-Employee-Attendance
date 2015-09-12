@@ -1,0 +1,24 @@
+<div class="row-fluid">
+  <div class="span3">
+    <%= image_tag "ct_logo.png", :style => "margin:8% 0 0 5%" %>
+    <b style="margin-left: 6%; font-size: 16px"><%= Time.now.strftime("%A, %d %B %Y") %></b>
+  </div>
+
+  <div class="span7" style="margin-top: 1%">
+    <div class="row-fluid" style="display: inline-flex">
+      <div class="span2"><%= link_to "Home", root_path, :class => "btn btn-default", :style => "margin-left:15%" %></div>
+      <div class="span8>">
+        <%= link_to "Individual Report", {:controller => :attendances, :action => :by_name}, :class => "btn btn-default" %>
+        <%= link_to "Report By Date", {:controller => :attendances, :action => :by_date}, :class => "btn btn-default" %>
+      </div>
+      <div class="span2"></div>
+    </div>
+  </div>
+  <div class="span2">
+    Welcome, <b><%= current_employee.firstname %> <%= current_employee.lastname %></b>
+    <%= link_to "signout", destroy_employee_session_path, :method => :delete %>
+    <% if current_employee.admin %>
+        Admin
+    <% end %>
+  </div>
+</div>

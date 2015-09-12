@@ -1,0 +1,155 @@
+<div>
+  <%= render 'header' %>
+  <hr>
+
+  <div style="margin-left: 1%">
+    <div class="row-fluid">
+      <div class="span2"></div>
+      <div class="span10">
+        <h2>Present Employees</h2>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span2"></div>
+      <div class="span1"><b>Firstname</b></div>
+      <div class="span1"><b>Lastname</b></div>
+      <div class="span1"><b>Login At</b></div>
+      <div class="span1"><b>Logout At</b></div>
+      <div class="span2"></div>
+      <div class="span2"><b>Total worked hours</b></div>
+      <div class="span2"></div>
+    </div>
+
+    <% @present_today.each do |present| %>
+        <div class="row-fluid">
+          <div class="span2"></div>
+          <div class="span1"><%= present.firstname %></div>
+          <div class="span1"><%= present.lastname %></div>
+
+          <div class="span1">
+              <% if present.login_at.present? %>
+                  <%= present.login_at.strftime("%H:%M") %>
+              <% end %>
+          </div>
+
+          <div class="span1">
+          <% if present.logout_at.present? %>
+              <%= present.logout_at.strftime("%H:%M") %>
+              <% @hour = ((present.logout_at - present.login_at)/1.hours).floor %>
+              <% @min = (((present.logout_at - present.login_at)%1.hours)/1.minutes).ceil %>
+          <% end %>
+          </div>
+
+          <div class="span2">
+            <% if present.email == current_employee.email %>
+              <% @out = Time.now %><%= link_to "Check out", attendance_path(present), :method => :put, :class => "btn btn-default", data: { confirm: 'You are going to end your office hour for today! Are you sure?' } %>
+            <% end %>
+          </div>
+
+          <div class="span2">
+            <% if present.logout_at != nil %>
+                <%= @hour %> hours and <%= @min %> minutes
+            <% end %>
+          </div>
+
+
+          <% if current_employee.admin && current_employee.firstname != present.firstname %>
+              <div class="span2">
+                    <%= link_to 'Edit', edit_attendance_path(present) %>
+                <%= link_to 'Delete', present, method: :delete, data: { confirm: 'You are going to destroy the record!!! Are you sure?' } %>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+
+    <br><br>
+    <div>
+      <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span10">
+          <h2>Absent Employees</h2>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span1"><b>Firstname</b></div>
+        <div class="span2"><b>Lastname</b></div>
+        <div class="span7"></div>
+      </div>
+
+      <% $absent.each do |absent| %>
+          <div class="row-fluid">
+            <div class="span2"></div>
+            <div class="span1"><%= absent.firstname %></div>
+            <div class="span2"><%= absent.lastname %></div>
+
+            <% if current_employee.admin %>
+                <div class="span2">
+                      <%= link_to "Make a Leave",  make_leave_attendances_path( { e_id: absent.to_param } ), :class => "btn btn-default", :style => "margin-top:-1.5%" %>
+                </div>
+            <% end %>
+            <div class="span5"></div>
+          </div>
+      <% end %>
+
+    </div>
+    <br><br>
+
+    <div>
+      <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span10">
+          <h2>On a Leave</h2>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span1"><b>Firstname</b></div>
+        <div class="span1"><b>Lastname</b></div>
+        <div class="span2"><b>Leave Cause</b></div>
+        <div class="span6"></div>
+      </div>
+
+      <% @on_leave.each do |leave| %>
+          <div class="row-fluid">
+            <div class="span2"></div>
+            <div class="span1"><%= leave.firstname %></div>
+            <div class="span1"><%= leave.lastname %></div>
+            <div class="span2"><%= leave.leave_cause %></div>
+            <div class="span6"></div>
+          </div>
+      <% end %>
+
+    </div>
+    <br><br>
+
+    <div>
+      <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span10">
+          <h2>All Employees</h2>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span1"><b>Firstname</b></div>
+        <div class="span1"><b>Lastname</b></div>
+        <div class="span3"><b>Email Address</b></div>
+        <div class="span5"></div>
+      </div>
+
+      <% @employee.each do |emp| %>
+          <div class="row-fluid">
+            <div class="span2"></div>
+            <div class="span1"><%= emp.firstname %></div>
+            <div class="span1"><%= emp.lastname %></div>
+            <div class="span3"><%= emp.email %></div>
+            <div class="span5"></div>
+          </div>
+      <% end %>
+
+    </div>
+  </div>
+
+</div>

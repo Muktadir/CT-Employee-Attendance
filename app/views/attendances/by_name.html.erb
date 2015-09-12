@@ -1,0 +1,66 @@
+<div>
+  <%= render 'header' %>
+  <hr>
+  <div class="row-fluid">
+    <div class="span4"></div>
+    <div class="span5">
+      <%= form_tag({:controller => :attendances, :action => :by_name}, :method => "get") do %>
+          <p><b>From</b></p>
+          <%= date_select "start_date", nil%>
+          <p><b>To</b></p>
+          <%= date_select "end_date", nil %>
+          <p></p>
+          <%= text_field_tag "email", nil, :placeholder => "Email Address" %>
+          <%= submit_tag "Search",:class => "btn btn-default", :style => "margin-top:-2%; width:24%" %>
+      <% end %>
+    </div>
+    <div class="span3"></div>
+  </div>
+  <br>
+  <div class="row-fluid">
+    <div class="span2"><b>Firstname</b></div>
+    <div class="span2"><b>Lastname</b></div>
+    <div class="span2"><b>Date</b></div>
+    <div class="span2"><b>Checked in at</b></div>
+    <div class="span2"><b>Checked out at</b></div>
+    <div class="span2"><b>Worked Hours</b></div>
+  </div>
+</div>
+<% @total_time = 0 %>
+<% @report_by_name.each do |n| %>
+    <div class="row-fluid">
+      <div class="span2"><%= n.firstname %></div>
+      <div class="span2"><%= n.lastname %></div>
+      <div class="span2"><%= n.date %></div>
+      <div class="span2">
+        <% if n.login_at.present? %>
+          <%= n.login_at.strftime("%H:%M") %>
+        <% elsif n.leave %>
+          was on <%= n.leave_cause %>
+        <% end %>
+      </div>
+      <% if n.logout_at != nil %>
+          <div class="span2"><%= n.logout_at.strftime("%H:%M") %></div>
+          <% @total_time = ( @total_time + (n.logout_at - n.login_at)) %>
+          <% @hour = ((n.logout_at - n.login_at)/1.hours).floor %>
+          <% @min = (((n.logout_at - n.login_at)%1.hours)/1.minutes).ceil %>
+          <div class="span2"><%= @hour %> hours and <%= @min %> minutes</div>
+      <% else %>
+          <div class="span2"></div>
+          <div class="span2"></div>
+      <% end %>
+
+    </div>
+
+<% end %>
+
+<br>
+<div class="row-fluid">
+  <div class="span4"></div>
+  <div class="span4">
+    <% @t_hours = (@total_time/1.hours).floor %>
+    <% @t_mins = ((@total_time%1.hours)/1.minutes).ceil %>
+    <b>Total worked hours: </b> <%= @t_hours %> hours and <%= @t_mins %> minutes.
+  </div>
+  <div class="span4"></div>
+</div>
